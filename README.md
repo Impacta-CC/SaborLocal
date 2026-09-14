@@ -1,4 +1,4 @@
-# Saborlocal2
+# SaborLocal
 
 A new Flutter project.
 

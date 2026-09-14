@@ -78,7 +78,7 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                         FlutterFlowIconButton(
                           borderRadius: 28.0,
                           buttonSize: 40.0,
-                          fillColor: Color(0xFFB83906),
+                          fillColor: Color(0xFFE9572F),
                           icon: Icon(
                             Icons.arrow_back_rounded,
                             color: Color(0xFFF5E9DC),
@@ -397,7 +397,7 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                       16.0, 0.0, 16.0, 0.0),
                                   iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: Color(0xFFB83906),
+                                  color: Color(0xFFE9572F),
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
@@ -549,8 +549,30 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                           ),
                         ),
                         FFButtonWidget(
-                          onPressed: () {
-                            print('Butt_confirmarcd pressed ...');
+                          onPressed: () async {
+                            if (Navigator.of(context).canPop()) {
+                              context.pop();
+                            }
+                            context.pushNamed(
+                              TelaRegistroFinalWidget.routeName,
+                              queryParameters: {
+                                'nomeImport': serializeParam(
+                                  _model.txtNomeTextController.text,
+                                  ParamType.String,
+                                ),
+                                'emailImport': serializeParam(
+                                  _model.txtEmailTextController.text,
+                                  ParamType.String,
+                                ),
+                              }.withoutNulls,
+                              extra: <String, dynamic>{
+                                '__transition_info__': TransitionInfo(
+                                  hasTransition: true,
+                                  transitionType:
+                                      PageTransitionType.rightToLeft,
+                                ),
+                              },
+                            );
                           },
                           text: 'Confirmar Código',
                           options: FFButtonOptions(
@@ -560,7 +582,7 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                 16.0, 0.0, 16.0, 0.0),
                             iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
-                            color: Color(0xFFB83906),
+                            color: Color(0xFFE9572F),
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
@@ -630,7 +652,7 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                                   .bodyMedium
                                                   .fontStyle,
                                         ),
-                                        color: Color(0xFFB83906),
+                                        color: Color(0xFFE9572F),
                                         fontSize: 14.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.bold,

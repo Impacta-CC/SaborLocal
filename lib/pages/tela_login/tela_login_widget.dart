@@ -378,7 +378,7 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
                           EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                       iconPadding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: Color(0xFFB83906),
+                      color: Color(0xFFE9572F),
                       textStyle:
                           FlutterFlowTheme.of(context).titleSmall.override(
                                 font: GoogleFonts.interTight(
@@ -458,7 +458,7 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
                                           .bodyMedium
                                           .fontStyle,
                                     ),
-                                    color: Color(0xFFB83906),
+                                    color: Color(0xFFE9572F),
                                     fontSize: 16.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,

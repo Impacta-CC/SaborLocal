@@ -76,6 +76,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: TelaRegistroWidget.routeName,
           path: TelaRegistroWidget.routePath,
           builder: (context, params) => TelaRegistroWidget(),
+        ),
+        FFRoute(
+          name: TelaRegistroFinalWidget.routeName,
+          path: TelaRegistroFinalWidget.routePath,
+          builder: (context, params) => TelaRegistroFinalWidget(
+            nomeImport: params.getParam(
+              'nomeImport',
+              ParamType.String,
+            ),
+            emailImport: params.getParam(
+              'emailImport',
+              ParamType.String,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
