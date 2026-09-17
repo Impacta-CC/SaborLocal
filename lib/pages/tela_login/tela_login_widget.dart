@@ -52,7 +52,7 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Color(0xFF21140E),
+        backgroundColor: Color(0xFF2B1E17),
         body: SafeArea(
           left: true,
           top: true,
@@ -72,7 +72,7 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.0),
                       child: Image.asset(
-                        'assets/images/logo_login.png',
+                        'assets/images/ChatGPT_Image_15_de_set._de_2026,_00_24_27.png',
                         width: 200.0,
                         height: 180.0,
                         fit: BoxFit.cover,
@@ -166,7 +166,7 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
                                   borderRadius: BorderRadius.circular(24.0),
                                 ),
                                 filled: true,
-                                fillColor: Color(0xFF332018),
+                                fillColor: Color(0xFF21140E),
                                 contentPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 18.0, 0.0, 18.0),
                                 prefixIcon: Icon(
@@ -281,7 +281,7 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
                                   borderRadius: BorderRadius.circular(24.0),
                                 ),
                                 filled: true,
-                                fillColor: Color(0xFF332018),
+                                fillColor: Color(0xFF21140E),
                                 contentPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 18.0, 0.0, 18.0),
                                 prefixIcon: Icon(
