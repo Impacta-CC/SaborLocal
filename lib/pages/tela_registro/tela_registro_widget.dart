@@ -1213,7 +1213,7 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                         topRight: Radius.circular(12.0),
                                       ),
                                       shape: PinCodeFieldShape.underline,
-                                      activeColor: Color(0xFFB83906),
+                                      activeColor: Color(0xFFE9572F),
                                       inactiveColor: Colors.white,
                                       selectedColor: Color(0xFF332018),
                                       errorBorderColor:
