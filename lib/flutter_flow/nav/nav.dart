@@ -100,6 +100,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.String,
             ),
           ),
+        ),
+        FFRoute(
+          name: RTelaNomesWidget.routeName,
+          path: RTelaNomesWidget.routePath,
+          builder: (context, params) => RTelaNomesWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
