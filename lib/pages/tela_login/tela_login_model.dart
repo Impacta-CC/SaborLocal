@@ -18,7 +18,7 @@ class TelaLoginModel extends FlutterFlowModel<TelaLoginWidget> {
   String? Function(BuildContext, String?)? eMailTextControllerValidator;
   String? _eMailTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'E-mail is required';
+      return 'Campo obrigatório';
     }
 
     if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
@@ -34,7 +34,7 @@ class TelaLoginModel extends FlutterFlowModel<TelaLoginWidget> {
   String? Function(BuildContext, String?)? senhaTextControllerValidator;
   String? _senhaTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Senha is required';
+      return 'Campo Obrigatório';
     }
 
     return null;

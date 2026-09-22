@@ -80,7 +80,26 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: TelaEnderecoWidget.routeName,
           path: TelaEnderecoWidget.routePath,
-          builder: (context, params) => TelaEnderecoWidget(),
+          builder: (context, params) => TelaEnderecoWidget(
+            nomeUsuario: params.getParam(
+              'nomeUsuario',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: TelaPrincipalWidget.routeName,
+          path: TelaPrincipalWidget.routePath,
+          builder: (context, params) => TelaPrincipalWidget(
+            enderecoFormatado: params.getParam(
+              'enderecoFormatado',
+              ParamType.String,
+            ),
+            nomeUsuario: params.getParam(
+              'nomeUsuario',
+              ParamType.String,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
