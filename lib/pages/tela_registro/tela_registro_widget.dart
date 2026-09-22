@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -43,6 +44,10 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
     _model.txtTelefoneFocusNode ??= FocusNode();
 
     _model.txtTelefoneMask = MaskTextInputFormatter(mask: '(##) #####-####');
+    _model.txtCPFTextController ??= TextEditingController();
+    _model.txtCPFFocusNode ??= FocusNode();
+
+    _model.txtCPFMask = MaskTextInputFormatter(mask: '###.###.###-##');
     _model.txtSenhaTextController ??= TextEditingController();
     _model.txtSenhaFocusNode ??= FocusNode();
 
@@ -576,6 +581,150 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                 Container(
                                   width: MediaQuery.sizeOf(context).width * 1.0,
                                   child: TextFormField(
+                                    controller: _model.txtCPFTextController,
+                                    focusNode: _model.txtCPFFocusNode,
+                                    autofocus: false,
+                                    enabled: true,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      labelStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: Color(0xFFC9B3A3),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      hintText: 'CPF',
+                                      hintStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: Color(0xFFC9B3A3),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(24.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(24.0),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(24.0),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(24.0),
+                                      ),
+                                      filled: true,
+                                      fillColor: Color(0xFF21140E),
+                                      contentPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              20.0, 8.0, 20.0, 8.0),
+                                      prefixIcon: Icon(
+                                        Icons.info_outline,
+                                        color: Color(0xFFC9B3A3),
+                                        size: 22.0,
+                                      ),
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: Color(0xFFF5E9DC),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                    maxLength: 15,
+                                    buildCounter: (context,
+                                            {required currentLength,
+                                            required isFocused,
+                                            maxLength}) =>
+                                        null,
+                                    keyboardType: TextInputType.number,
+                                    cursorColor: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    enableInteractiveSelection: true,
+                                    validator: _model
+                                        .txtCPFTextControllerValidator
+                                        .asValidator(context),
+                                    inputFormatters: [_model.txtCPFMask],
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.sizeOf(context).width * 1.0,
+                                  child: TextFormField(
                                     controller: _model.txtSenhaTextController,
                                     focusNode: _model.txtSenhaFocusNode,
                                     autofocus: false,
@@ -875,31 +1024,59 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                                 .validate()) {
                                           return;
                                         }
-                                        if (_model
-                                                .txtSenhaTextController.text ==
-                                            _model.txtConfirmeTextController
-                                                .text) {
-                                          _model.codigoEnviado = true;
-                                          safeSetState(() {});
+                                        if (functions.validarCPF(_model
+                                                .txtCPFTextController.text) ==
+                                            true) {
+                                          if (_model.txtSenhaTextController
+                                                  .text ==
+                                              _model.txtConfirmeTextController
+                                                  .text) {
+                                            _model.codigoEnviado = true;
+                                            safeSetState(() {});
+                                            return;
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'As senhas não coincidem',
+                                                  style: TextStyle(
+                                                    color: Color(0xFFC9B3A3),
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 14.0,
+                                                  ),
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 5000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                              ),
+                                            );
+                                            return;
+                                          }
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                'As senhas não coincidem',
+                                                'CPF inválido! Verifique os números digitados.',
                                                 style: TextStyle(
-                                                  color: Color(0xFFC9B3A3),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 14.0,
                                                 ),
                                               ),
                                               duration:
-                                                  Duration(milliseconds: 5000),
+                                                  Duration(milliseconds: 4000),
                                               backgroundColor:
                                                   FlutterFlowTheme.of(context)
                                                       .error,
                                             ),
                                           );
+                                          return;
                                         }
                                       },
                                       text: 'Enviar Código',
@@ -939,7 +1116,7 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                     ),
                                   ),
                                 ),
-                              ].divide(SizedBox(height: 16.0)),
+                              ].divide(SizedBox(height: 12.0)),
                             ),
                           ),
                         ),
@@ -1056,7 +1233,15 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                         ),
                         FFButtonWidget(
                           onPressed: () async {
-                            context.pushNamed(TelaEnderecoWidget.routeName);
+                            context.pushNamed(
+                              TelaEnderecoWidget.routeName,
+                              queryParameters: {
+                                'nomeUsuario': serializeParam(
+                                  _model.txtNomeTextController.text,
+                                  ParamType.String,
+                                ),
+                              }.withoutNulls,
+                            );
                           },
                           text: 'Confirmar Código',
                           options: FFButtonOptions(

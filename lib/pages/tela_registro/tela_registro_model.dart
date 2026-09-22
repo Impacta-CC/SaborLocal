@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -58,9 +59,18 @@ class TelaRegistroModel extends FlutterFlowModel<TelaRegistroWidget> {
       return 'Preencha o telefone';
     }
 
+    if (val.length < 15) {
+      return 'Quantidade de números inválida';
+    }
+
     return null;
   }
 
+  // State field(s) for txt_CPF widget.
+  FocusNode? txtCPFFocusNode;
+  TextEditingController? txtCPFTextController;
+  late MaskTextInputFormatter txtCPFMask;
+  String? Function(BuildContext, String?)? txtCPFTextControllerValidator;
   // State field(s) for txt_senha widget.
   FocusNode? txtSenhaFocusNode;
   TextEditingController? txtSenhaTextController;
@@ -117,6 +127,9 @@ class TelaRegistroModel extends FlutterFlowModel<TelaRegistroWidget> {
 
     txtTelefoneFocusNode?.dispose();
     txtTelefoneTextController?.dispose();
+
+    txtCPFFocusNode?.dispose();
+    txtCPFTextController?.dispose();
 
     txtSenhaFocusNode?.dispose();
     txtSenhaTextController?.dispose();

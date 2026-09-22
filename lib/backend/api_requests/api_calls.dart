@@ -37,6 +37,14 @@ class ViaCEPCall {
         response,
         r'''$.bairro''',
       ));
+  static String? uf(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.uf''',
+      ));
+  static String? cidade(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.localidade''',
+      ));
 }
 
 class ApiPagingParams {
