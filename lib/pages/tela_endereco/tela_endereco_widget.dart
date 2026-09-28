@@ -1,3 +1,4 @@
+import '/auth/xano_auth_manager.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -1059,15 +1060,25 @@ class _TelaEnderecoWidgetState extends State<TelaEnderecoWidget> {
                           return;
                         }
 
-                        context.pushNamed(
+                        final logradouro =
+                            _model.txtLogradouroTextController.text.trim();
+                        final numero = _model.txNmrTextController.text.trim();
+                        final bairro =
+                            _model.txtBairroTextController.text.trim();
+                        final formatted = '$logradouro, $numero - $bairro';
+
+                        await XanoAuthManager.instance.saveAddress(formatted);
+
+                        context.goNamed(
                           TelaPrincipalWidget.routeName,
                           queryParameters: {
                             'enderecoFormatado': serializeParam(
-                              '${_model.txtLogradouroTextController.text},  ${_model.txNmrTextController.text}',
+                              formatted,
                               ParamType.String,
                             ),
                             'nomeUsuario': serializeParam(
-                              widget!.nomeUsuario,
+                              widget!.nomeUsuario ??
+                                  XanoAuthManager.instance.userName,
                               ParamType.String,
                             ),
                           }.withoutNulls,
