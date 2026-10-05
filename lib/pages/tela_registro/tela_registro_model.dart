@@ -14,10 +14,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
+import '/backend/api_requests/api_calls.dart';
+
 class TelaRegistroModel extends FlutterFlowModel<TelaRegistroWidget> {
   ///  Local state fields for this page.
 
   bool codigoEnviado = false;
+  bool isLoading = false;
+  ApiCallResponse? apiResultSignup;
 
   ///  State fields for stateful widgets in this page.
 

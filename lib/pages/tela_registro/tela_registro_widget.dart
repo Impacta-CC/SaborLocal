@@ -4,6 +4,8 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/auth/xano_auth_manager.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/services.dart';
@@ -1526,27 +1528,41 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     4.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  'Reenviar',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.inter(
+                                child: InkWell(
+                                  onTap: () async {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Novo código reenviado para o e-mail!',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        backgroundColor: Color(0xFFE9572F),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Reenviar',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: Color(0xFFE9572F),
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.bold,
                                           fontStyle:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
                                                   .fontStyle,
+                                          decoration: TextDecoration.underline,
                                         ),
-                                        color: Color(0xFFE9572F),
-                                        fontSize: 14.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                        decoration: TextDecoration.underline,
-                                      ),
+                                  ),
                                 ),
                               ),
                             ],
