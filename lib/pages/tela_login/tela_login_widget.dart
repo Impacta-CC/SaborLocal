@@ -343,133 +343,27 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
                     child: Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
-                      child: InkWell(
-                        onTap: () async {
-                          final emailController = TextEditingController(
-                            text: _model.eMailTextController.text,
-                          );
-                          await showDialog(
-                            context: context,
-                            builder: (dialogContext) {
-                              return AlertDialog(
-                                backgroundColor: Color(0xFF2B1E17),
-                                title: Text(
-                                  'Recuperar Senha',
-                                  style: TextStyle(
-                                    color: Color(0xFFF5E9DC),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Digite seu e-mail cadastrado no Sabor Local para receber o link de redefinição:',
-                                      style: TextStyle(color: Color(0xFFC9B3A3)),
-                                    ),
-                                    SizedBox(height: 12.0),
-                                    TextField(
-                                      controller: emailController,
-                                      style: TextStyle(color: Color(0xFFF5E9DC)),
-                                      decoration: InputDecoration(
-                                        hintText: 'exemplo@email.com',
-                                        hintStyle:
-                                            TextStyle(color: Color(0xFFC9B3A3)),
-                                        filled: true,
-                                        fillColor: Color(0xFF21140E),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(dialogContext),
-                                    child: Text(
-                                      'Cancelar',
-                                      style: TextStyle(color: Color(0xFFC9B3A3)),
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFE9572F),
-                                    ),
-                                    onPressed: () async {
-                                      final email =
-                                          emailController.text.trim();
-                                      if (email.isEmpty) return;
-                                      Navigator.pop(dialogContext);
-
-                                      final res = await XanoAuthGroup
-                                          .requestResetLinkCall
-                                          .call(email: email);
-                                      if (res.succeeded) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Link de redefinição enviado com sucesso!',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            backgroundColor:
-                                                Color(0xFFE9572F),
-                                          ),
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Não foi possível enviar o link de redefinição.',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .error,
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Text(
-                                      'Enviar',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          'Esqueceu a senha?',
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: Color(0xFFC9B3A3),
-                                    fontSize: 13.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                        ),
+                      child: Text(
+                        'Esqueceu a senha?',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.inter(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: Color(0xFFC9B3A3),
+                              fontSize: 13.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
                       ),
                     ),
                   ),
@@ -590,7 +484,7 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
                     },
                     text: 'Entrar',
                     options: FFButtonOptions(
-                      width: 120.0,
+                      width: 90.0,
                       height: 52.0,
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),

@@ -6,7 +6,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import '/main.dart';
-import '/auth/xano_auth_manager.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/lat_lng.dart';
 import '/flutter_flow/place.dart';
@@ -51,9 +50,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 ),
               ),
             )
-          : (XanoAuthManager.instance.loggedIn
-              ? TelaPrincipalWidget()
-              : TelaLoginWidget()),
+          : TelaLoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
@@ -68,9 +65,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     ),
                   ),
                 )
-              : (XanoAuthManager.instance.loggedIn
-                  ? TelaPrincipalWidget()
-                  : TelaLoginWidget()),
+              : TelaLoginWidget(),
         ),
         FFRoute(
           name: TelaLoginWidget.routeName,
