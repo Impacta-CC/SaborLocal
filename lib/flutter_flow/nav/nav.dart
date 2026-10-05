@@ -90,21 +90,39 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: TelaPrincipalWidget.routeName,
           path: TelaPrincipalWidget.routePath,
-          builder: (context, params) => TelaPrincipalWidget(
-            enderecoFormatado: params.getParam(
-              'enderecoFormatado',
-              ParamType.String,
-            ),
-            nomeUsuario: params.getParam(
-              'nomeUsuario',
-              ParamType.String,
-            ),
-          ),
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'TelaPrincipal')
+              : TelaPrincipalWidget(
+                  enderecoFormatado: params.getParam(
+                    'enderecoFormatado',
+                    ParamType.String,
+                  ),
+                  nomeUsuario: params.getParam(
+                    'nomeUsuario',
+                    ParamType.String,
+                  ),
+                ),
         ),
         FFRoute(
-          name: RTelaNomesWidget.routeName,
-          path: RTelaNomesWidget.routePath,
-          builder: (context, params) => RTelaNomesWidget(),
+          name: TelaBuscaWidget.routeName,
+          path: TelaBuscaWidget.routePath,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'TelaBusca')
+              : TelaBuscaWidget(),
+        ),
+        FFRoute(
+          name: TelaPerfilWidget.routeName,
+          path: TelaPerfilWidget.routePath,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'TelaPerfil')
+              : TelaPerfilWidget(),
+        ),
+        FFRoute(
+          name: TelaPedidosWidget.routeName,
+          path: TelaPedidosWidget.routePath,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'TelaPedidos')
+              : TelaPedidosWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -66,6 +67,8 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -1018,6 +1021,7 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                         0.0, 24.0, 0.0, 0.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
+                                        var _shouldSetState = false;
                                         if (_model.formKey.currentState ==
                                                 null ||
                                             !_model.formKey.currentState!
@@ -1031,9 +1035,142 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                                   .text ==
                                               _model.txtConfirmeTextController
                                                   .text) {
-                                            _model.codigoEnviado = true;
+                                            FFAppState().codigoGerado =
+                                                functions
+                                                    .gerarCodigoVerificacao();
                                             safeSetState(() {});
-                                            return;
+                                            _model.respostaCadastro =
+                                                await CadastrarClienteCall.call(
+                                              nome: _model
+                                                  .txtNomeTextController.text,
+                                              email: _model
+                                                  .txtEmailTextController.text,
+                                              senha: _model
+                                                  .txtSenhaTextController.text,
+                                              cpf: _model
+                                                  .txtCPFTextController.text,
+                                              celular: _model
+                                                  .txtTelefoneTextController
+                                                  .text,
+                                            );
+
+                                            _shouldSetState = true;
+                                            FFAppState().userId =
+                                                CadastrarClienteCall.userId(
+                                              (_model.respostaCadastro
+                                                      ?.jsonBody ??
+                                                  ''),
+                                            );
+                                            FFAppState().authToken =
+                                                CadastrarClienteCall.authToken(
+                                              (_model.respostaCadastro
+                                                      ?.jsonBody ??
+                                                  ''),
+                                            )!;
+                                            safeSetState(() {});
+                                            if ((_model.respostaCadastro
+                                                    ?.succeeded ??
+                                                true)) {
+                                              _model.apiCodigoEnviado =
+                                                  await EnviarCodigoVerificacaoCall
+                                                      .call(
+                                                to: _model
+                                                    .txtEmailTextController
+                                                    .text,
+                                                from:
+                                                    'kaua.santos@aluno.impacta.edu.br',
+                                                subject:
+                                                    'Seu código de acesso - Sabor Local',
+                                                content:
+                                                    FFAppState().codigoGerado,
+                                              );
+
+                                              _shouldSetState = true;
+                                              if ((_model.apiCodigoEnviado
+                                                      ?.succeeded ??
+                                                  true)) {
+                                                _model.codigoEnviado = true;
+                                                safeSetState(() {});
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Código de confirmação enviado para o seu e-mail!',
+                                                      style: TextStyle(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .success,
+                                                  ),
+                                                );
+                                                if (_shouldSetState)
+                                                  safeSetState(() {});
+                                                return;
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      'Não foi possível enviar o e-mail. Verifique o endereço e tente novamente',
+                                                      style: TextStyle(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .error,
+                                                  ),
+                                                );
+                                                if (_shouldSetState)
+                                                  safeSetState(() {});
+                                                return;
+                                              }
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Ocorreu um erro ao registar o utilizador. Verifique os dados e tente novamente',
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 14.0,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .error,
+                                                ),
+                                              );
+                                              if (_shouldSetState)
+                                                safeSetState(() {});
+                                              return;
+                                            }
                                           } else {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
@@ -1053,6 +1190,8 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                                         .error,
                                               ),
                                             );
+                                            if (_shouldSetState)
+                                              safeSetState(() {});
                                             return;
                                           }
                                         } else {
@@ -1076,8 +1215,13 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                                       .error,
                                             ),
                                           );
+                                          if (_shouldSetState)
+                                            safeSetState(() {});
                                           return;
                                         }
+
+                                        if (_shouldSetState)
+                                          safeSetState(() {});
                                       },
                                       text: 'Enviar Código',
                                       options: FFButtonOptions(
@@ -1182,7 +1326,7 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                     length: 6,
                                     textStyle: GoogleFonts.roboto(
                                       color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                          .primaryText,
                                       fontSize: 14.0,
                                     ),
                                     mainAxisAlignment:
@@ -1233,15 +1377,88 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                         ),
                         FFButtonWidget(
                           onPressed: () async {
-                            context.pushNamed(
-                              TelaEnderecoWidget.routeName,
-                              queryParameters: {
-                                'nomeUsuario': serializeParam(
-                                  _model.txtNomeTextController.text,
-                                  ParamType.String,
+                            var _shouldSetState = false;
+                            if (_model.pinCodeController!.text ==
+                                FFAppState().codigoGerado) {
+                              _model.apiAtualizaStatus =
+                                  await AtualizarStatusClienteCall.call(
+                                userId: FFAppState().userId,
+                              );
+
+                              _shouldSetState = true;
+                              if ((_model.apiAtualizaStatus?.succeeded ??
+                                  true)) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Conta confirmada com sucesso!',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).secondary,
+                                  ),
+                                );
+
+                                context.pushNamed(
+                                  TelaEnderecoWidget.routeName,
+                                  queryParameters: {
+                                    'nomeUsuario': serializeParam(
+                                      _model.txtNomeTextController.text,
+                                      ParamType.String,
+                                    ),
+                                  }.withoutNulls,
+                                );
+
+                                if (_shouldSetState) safeSetState(() {});
+                                return;
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Erro ao ativar a conta. Tente novamente.',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).error,
+                                  ),
+                                );
+                                if (_shouldSetState) safeSetState(() {});
+                                return;
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Verifique o código no seu e-mail e tente novamente!',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).error,
                                 ),
-                              }.withoutNulls,
-                            );
+                              );
+                              if (_shouldSetState) safeSetState(() {});
+                              return;
+                            }
+
+                            if (_shouldSetState) safeSetState(() {});
                           },
                           text: 'Confirmar Código',
                           options: FFButtonOptions(

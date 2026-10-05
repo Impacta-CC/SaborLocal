@@ -10,10 +10,9 @@ import '/flutter_flow/lat_lng.dart';
 import '/flutter_flow/place.dart';
 import '/flutter_flow/uploaded_file.dart';
 
-String obterPrimeiroNome(String? nomeCompleto) {
-  if (nomeCompleto == null || nomeCompleto.trim().isEmpty) {
-    return 'Cliente';
+bool? bloqueioExpirado(DateTime? dataBloqueio) {
+  if (dataBloqueio == null) {
+    return true;
   }
-  List<String> partes = nomeCompleto.trim().split(' ');
-  return partes.first;
+  return DateTime.now().difference(dataBloqueio).inMinutes >= 5;
 }

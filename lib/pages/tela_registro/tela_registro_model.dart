@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -101,10 +102,16 @@ class TelaRegistroModel extends FlutterFlowModel<TelaRegistroWidget> {
     return null;
   }
 
+  // Stores action output result for [Backend Call - API (CadastrarCliente)] action in butt_enviarcd widget.
+  ApiCallResponse? respostaCadastro;
+  // Stores action output result for [Backend Call - API (EnviarCodigoVerificacao)] action in butt_enviarcd widget.
+  ApiCallResponse? apiCodigoEnviado;
   // State field(s) for PinCode widget.
   TextEditingController? pinCodeController;
   FocusNode? pinCodeFocusNode;
   String? Function(BuildContext, String?)? pinCodeControllerValidator;
+  // Stores action output result for [Backend Call - API (AtualizarStatusCliente)] action in Butt_confirmarcd widget.
+  ApiCallResponse? apiAtualizaStatus;
 
   @override
   void initState(BuildContext context) {

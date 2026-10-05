@@ -2,12 +2,12 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
-import 'r_tela_nomes_widget.dart' show RTelaNomesWidget;
+import 'tela_busca_widget.dart' show TelaBuscaWidget;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class RTelaNomesModel extends FlutterFlowModel<RTelaNomesWidget> {
+class TelaBuscaModel extends FlutterFlowModel<TelaBuscaWidget> {
   @override
   void initState(BuildContext context) {}
 

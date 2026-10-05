@@ -10,10 +10,11 @@ import '/flutter_flow/lat_lng.dart';
 import '/flutter_flow/place.dart';
 import '/flutter_flow/uploaded_file.dart';
 
-String obterPrimeiroNome(String? nomeCompleto) {
-  if (nomeCompleto == null || nomeCompleto.trim().isEmpty) {
-    return 'Cliente';
+String gerarCodigoVerificacao() {
+  //
+  String code = '';
+  for (int i = 0; i < 6; i++) {
+    code += math.Random().nextInt(10).toString();
   }
-  List<String> partes = nomeCompleto.trim().split(' ');
-  return partes.first;
+  return code;
 }

@@ -1,7 +1,9 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'tela_login_widget.dart' show TelaLoginWidget;
 import 'package:flutter/material.dart';
@@ -39,6 +41,9 @@ class TelaLoginModel extends FlutterFlowModel<TelaLoginWidget> {
 
     return null;
   }
+
+  // Stores action output result for [Backend Call - API (Login)] action in butt_login widget.
+  ApiCallResponse? loginResult;
 
   @override
   void initState(BuildContext context) {
