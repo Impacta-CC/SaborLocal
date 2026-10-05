@@ -10,13 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '/backend/api_requests/api_calls.dart';
-
 class TelaLoginModel extends FlutterFlowModel<TelaLoginWidget> {
   ///  State fields for stateful widgets in this page.
-
-  bool isLoading = false;
-  ApiCallResponse? apiResultLogin;
 
   final formKey = GlobalKey<FormState>();
   // State field(s) for E-mail widget.
