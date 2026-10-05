@@ -47,220 +47,62 @@ class ViaCEPCall {
       ));
 }
 
-/// -------------------------------------------------------------
-/// Xano Backend Integration (Daniel's Workspace)
-/// -------------------------------------------------------------
-
-class XanoAuthGroup {
-  static String baseUrl = 'https://x8ki-letl-twmt.n7.xano.io/api:p9wcfAQF';
-  static XanoSignupCall signupCall = XanoSignupCall();
-  static XanoLoginCall loginCall = XanoLoginCall();
-  static XanoMeCall meCall = XanoMeCall();
-  static XanoRequestResetLinkCall requestResetLinkCall =
-      XanoRequestResetLinkCall();
-}
-
-class XanoSignupCall {
-  Future<ApiCallResponse> call({
-    String? name,
-    String? email,
-    String? password,
+class EnviarCodigoVerificacaoCall {
+  static Future<ApiCallResponse> call({
+    String? to = 'seu e-mail de teste',
+    String? from = 'seu e-mail validado no Sendgrid',
+    String? subject = 'Código de Verificação',
+    String? content = '12345',
   }) async {
-    final body = json.encode({
-      if (name != null && name.isNotEmpty) 'name': name,
-      if (email != null && email.isNotEmpty) 'email': email,
-      if (password != null && password.isNotEmpty) 'password': password,
-    });
+    final ffApiRequestBody = '''
+{
+  "to": ${to == null ? 'null' : '"${escapeStringForJson(to)}"'},
+  "from": ${from == null ? 'null' : '"${escapeStringForJson(from)}"'},
+  "subject": ${subject == null ? 'null' : '"${escapeStringForJson(subject)}"'},
+  "content": ${content == null ? 'null' : '"${escapeStringForJson(content)}"'}
+}''';
     return ApiManager.instance.makeApiCall(
-      callName: 'XanoSignup',
-      apiUrl: '${XanoAuthGroup.baseUrl}/auth/signup',
+      callName: 'EnviarCodigoVerificacao',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:jfZ30hOo/SendGrid_email',
       callType: ApiCallType.POST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      params: {},
-      body: body,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-
-  static String? authToken(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('authToken')) {
-      return body['authToken']?.toString();
-    }
-    return castToType<String>(getJsonField(
-      response,
-      r'''$.authToken''',
-    ));
-  }
-
-  static int? userId(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('user_id')) {
-      return castToType<int>(body['user_id']);
-    }
-    return castToType<int>(getJsonField(
-      response,
-      r'''$.user_id''',
-    ));
-  }
-
-  static String? errorMessage(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('message')) {
-      return body['message']?.toString();
-    }
-    return castToType<String>(getJsonField(
-      response,
-      r'''$.message''',
-    ));
-  }
-}
-
-class XanoLoginCall {
-  Future<ApiCallResponse> call({
-    String? email,
-    String? password,
-  }) async {
-    final body = json.encode({
-      if (email != null && email.isNotEmpty) 'email': email,
-      if (password != null && password.isNotEmpty) 'password': password,
-    });
-    return ApiManager.instance.makeApiCall(
-      callName: 'XanoLogin',
-      apiUrl: '${XanoAuthGroup.baseUrl}/auth/login',
-      callType: ApiCallType.POST,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      params: {},
-      body: body,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-
-  static String? authToken(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('authToken')) {
-      return body['authToken']?.toString();
-    }
-    return castToType<String>(getJsonField(
-      response,
-      r'''$.authToken''',
-    ));
-  }
-
-  static int? userId(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('user_id')) {
-      return castToType<int>(body['user_id']);
-    }
-    return castToType<int>(getJsonField(
-      response,
-      r'''$.user_id''',
-    ));
-  }
-
-  static String? errorMessage(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('message')) {
-      return body['message']?.toString();
-    }
-    return castToType<String>(getJsonField(
-      response,
-      r'''$.message''',
-    ));
-  }
-}
-
-class XanoMeCall {
-  Future<ApiCallResponse> call({
-    String? authToken,
-  }) async {
-    return ApiManager.instance.makeApiCall(
-      callName: 'XanoMe',
-      apiUrl: '${XanoAuthGroup.baseUrl}/auth/me',
-      callType: ApiCallType.GET,
-      headers: {
-        if (authToken != null && authToken.isNotEmpty)
-          'Authorization': 'Bearer $authToken',
-      },
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-
-  static int? id(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('id')) {
-      return castToType<int>(body['id']);
-    }
-    return castToType<int>(getJsonField(response, r'''$.id'''));
-  }
-
-  static String? name(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('name')) {
-      return body['name']?.toString();
-    }
-    return castToType<String>(getJsonField(response, r'''$.name'''));
-  }
-
-  static String? email(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('email')) {
-      return body['email']?.toString();
-    }
-    return castToType<String>(getJsonField(response, r'''$.email'''));
-  }
-
-  static String? role(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('role')) {
-      return body['role']?.toString();
-    }
-    return castToType<String>(getJsonField(response, r'''$.role'''));
-  }
-
-  static int? createdAt(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('created_at')) {
-      return castToType<int>(body['created_at']);
-    }
-    return castToType<int>(getJsonField(response, r'''$.created_at'''));
-  }
-}
-
-class XanoRequestResetLinkCall {
-  Future<ApiCallResponse> call({
-    String? email,
-  }) async {
-    return ApiManager.instance.makeApiCall(
-      callName: 'XanoRequestResetLink',
-      apiUrl: '${XanoAuthGroup.baseUrl}/reset/request-reset-link',
-      callType: ApiCallType.GET,
       headers: {},
-      params: {
-        if (email != null && email.isNotEmpty) 'email': email,
-      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class CadastrarClienteCall {
+  static Future<ApiCallResponse> call({
+    String? nome = '',
+    String? email = '',
+    String? senha = '',
+    String? cpf = '',
+    String? celular = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "name": ${nome == null ? 'null' : '"${escapeStringForJson(nome)}"'},
+  "email": ${email == null ? 'null' : '"${escapeStringForJson(email)}"'},
+  "password": ${senha == null ? 'null' : '"${escapeStringForJson(senha)}"'},
+  "cpf": ${cpf == null ? 'null' : '"${escapeStringForJson(cpf)}"'},
+  "celular": ${celular == null ? 'null' : '"${escapeStringForJson(celular)}"'}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'CadastrarCliente',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:p9wcfAQF/auth/signup',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -270,35 +112,86 @@ class XanoRequestResetLinkCall {
     );
   }
 
-  static String? message(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is Map && body.containsKey('message')) {
-      final msg = body['message'];
-      if (msg is Map && msg.containsKey('message')) {
-        return msg['message']?.toString();
-      }
-      return msg?.toString();
-    }
-    return castToType<String>(getJsonField(response, r'''$.message.message'''));
+  static String? authToken(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.authToken''',
+      ));
+  static dynamic? userId(dynamic response) => getJsonField(
+        response,
+        r'''$.user_id''',
+      );
+}
+
+class AtualizarStatusClienteCall {
+  static Future<ApiCallResponse> call({
+    int? userId,
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "user_id": ${userId}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'AtualizarStatusCliente',
+      apiUrl:
+          'https://x8ki-letl-twmt.n7.xano.io/api:jfZ30hOo/verificar_cliente',
+      callType: ApiCallType.PATCH,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
   }
 }
 
-class XanoEventLogsGroup {
-  static String baseUrl = 'https://x8ki-letl-twmt.n7.xano.io/api:PZJnI3lY';
-  static XanoMyEventsCall myEventsCall = XanoMyEventsCall();
+class LoginCall {
+  static Future<ApiCallResponse> call({
+    String? email = '',
+    String? password = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "email": ${email == null ? 'null' : '"${escapeStringForJson(email)}"'},
+  "password": ${password == null ? 'null' : '"${escapeStringForJson(password)}"'}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Login',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:p9wcfAQF/auth/login',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static String? authToken(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.authToken''',
+      ));
 }
 
-class XanoMyEventsCall {
-  Future<ApiCallResponse> call({
-    String? authToken,
+class GetPerfilCall {
+  static Future<ApiCallResponse> call({
+    String? token = '',
   }) async {
     return ApiManager.instance.makeApiCall(
-      callName: 'XanoMyEvents',
-      apiUrl: '${XanoEventLogsGroup.baseUrl}/logs/user/my_events',
+      callName: 'GetPerfil',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:p9wcfAQF/auth/me',
       callType: ApiCallType.GET,
       headers: {
-        if (authToken != null && authToken.isNotEmpty)
-          'Authorization': 'Bearer $authToken',
+        'Authorization': 'Bearer ${token}',
       },
       params: {},
       returnBody: true,
@@ -310,12 +203,61 @@ class XanoMyEventsCall {
     );
   }
 
-  static List? events(dynamic response) {
-    final body = response is ApiCallResponse ? response.jsonBody : response;
-    if (body is List) {
-      return body;
-    }
-    return castToType<List>(getJsonField(response, r'''$'''));
+  static String? rua(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.endereco.logradouro''',
+      ));
+  static String? numero(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.endereco.numero''',
+      ));
+  static String? nome(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.cliente.nome''',
+      ));
+  static String? bairro(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.endereco.bairro''',
+      ));
+}
+
+class CadastraEnderecoCall {
+  static Future<ApiCallResponse> call({
+    String? token = '',
+    String? rua = '',
+    String? numero = '',
+    String? bairro = '',
+    String? complemento = '',
+    String? cep = '',
+    String? referencia = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "rua": ${rua == null ? 'null' : '"${escapeStringForJson(rua)}"'},
+  "numero": ${numero == null ? 'null' : '"${escapeStringForJson(numero)}"'},
+  "bairro": ${bairro == null ? 'null' : '"${escapeStringForJson(bairro)}"'},
+  "complemento": ${complemento == null ? 'null' : '"${escapeStringForJson(complemento)}"'},
+  "cep": ${cep == null ? 'null' : '"${escapeStringForJson(cep)}"'},
+  "referencia": ${referencia == null ? 'null' : '"${escapeStringForJson(referencia)}"'}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'CadastraEndereco',
+      apiUrl:
+          'https://x8ki-letl-twmt.n7.xano.io/api:jfZ30hOo/cadastrar_endereco',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
   }
 }
 
@@ -361,4 +303,15 @@ String _serializeJson(dynamic jsonVar, [bool isList = false]) {
     }
     return isList ? '[]' : '{}';
   }
+}
+
+String? escapeStringForJson(String? input) {
+  if (input == null) {
+    return null;
+  }
+  return input
+      .replaceAll('\\', '\\\\')
+      .replaceAll('"', '\\"')
+      .replaceAll('\n', '\\n')
+      .replaceAll('\t', '\\t');
 }

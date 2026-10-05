@@ -1,15 +1,13 @@
-import '/backend/api_requests/api_calls.dart';
-import '/components/modern_clean_bottom/modern_clean_bottom_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
-import 'tela_principal_widget.dart' show TelaPrincipalWidget;
+import 'tela_perfil_widget.dart' show TelaPerfilWidget;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class TelaPrincipalModel extends FlutterFlowModel<TelaPrincipalWidget> {
+class TelaPerfilModel extends FlutterFlowModel<TelaPerfilWidget> {
   @override
   void initState(BuildContext context) {}
 

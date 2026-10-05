@@ -67,6 +67,8 @@ class _TelaEnderecoWidgetState extends State<TelaEnderecoWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -1055,40 +1057,75 @@ class _TelaEnderecoWidgetState extends State<TelaEnderecoWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () async {
+                        var _shouldSetState = false;
                         if (_model.formKey1.currentState == null ||
                             !_model.formKey1.currentState!.validate()) {
                           return;
                         }
-
-                        final logradouro =
-                            _model.txtLogradouroTextController.text.trim();
-                        final numero = _model.txNmrTextController.text.trim();
-                        final bairro =
-                            _model.txtBairroTextController.text.trim();
-                        final formatted = '$logradouro, $numero - $bairro';
-
-                        await XanoAuthManager.instance.saveAddress(formatted);
-
-                        context.goNamed(
-                          TelaPrincipalWidget.routeName,
-                          queryParameters: {
-                            'enderecoFormatado': serializeParam(
-                              formatted,
-                              ParamType.String,
-                            ),
-                            'nomeUsuario': serializeParam(
-                              widget!.nomeUsuario ??
-                                  XanoAuthManager.instance.userName,
-                              ParamType.String,
-                            ),
-                          }.withoutNulls,
-                          extra: <String, dynamic>{
-                            '__transition_info__': TransitionInfo(
-                              hasTransition: true,
-                              transitionType: PageTransitionType.rightToLeft,
-                            ),
-                          },
+                        _model.apiResultEndereco =
+                            await CadastraEnderecoCall.call(
+                          token: FFAppState().authToken,
+                          rua: _model.txtLogradouroTextController.text,
+                          numero: _model.txNmrTextController.text,
+                          bairro: _model.txtBairroTextController.text,
+                          complemento: _model.txtComplementoTextController.text,
+                          cep: _model.txtCEPTextController.text,
+                          referencia: _model.txtReferenciaTextController.text,
                         );
+
+                        _shouldSetState = true;
+                        if ((_model.apiResultEndereco?.succeeded ?? true)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Endereço cadastrado com sucesso!',
+                                style: TextStyle(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).secondary,
+                            ),
+                          );
+
+                          context.pushNamed(
+                            TelaPrincipalWidget.routeName,
+                            extra: <String, dynamic>{
+                              '__transition_info__': TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.rightToLeft,
+                              ),
+                            },
+                          );
+
+                          if (_shouldSetState) safeSetState(() {});
+                          return;
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Erro ao salvar endereço. Verifique os dados.',
+                                style: TextStyle(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).error,
+                            ),
+                          );
+                          if (_shouldSetState) safeSetState(() {});
+                          return;
+                        }
+
+                        if (_shouldSetState) safeSetState(() {});
                       },
                       text: 'Cadastrar',
                       options: FFButtonOptions(

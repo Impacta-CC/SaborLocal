@@ -21,21 +21,6 @@ class TelaEnderecoModel extends FlutterFlowModel<TelaEnderecoWidget> {
   FocusNode? txtCEPFocusNode;
   TextEditingController? txtCEPTextController;
   String? Function(BuildContext, String?)? txtCEPTextControllerValidator;
-  String? _txtCEPTextControllerValidator(BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'CEP is required';
-    }
-
-    if (val.length < 8) {
-      return 'CEP deve ter 8 digitos ';
-    }
-    if (val.length > 8) {
-      return 'CEP deve ter 8 digitos ';
-    }
-
-    return null;
-  }
-
   // Stores action output result for [Backend Call - API (ViaCEP)] action in txt_CEP widget.
   ApiCallResponse? consultaCEP;
   // State field(s) for txt_logradouro widget.
@@ -84,10 +69,11 @@ class TelaEnderecoModel extends FlutterFlowModel<TelaEnderecoWidget> {
   FocusNode? txtReferenciaFocusNode;
   TextEditingController? txtReferenciaTextController;
   String? Function(BuildContext, String?)? txtReferenciaTextControllerValidator;
+  // Stores action output result for [Backend Call - API (CadastraEndereco)] action in But_concluir widget.
+  ApiCallResponse? apiResultEndereco;
 
   @override
   void initState(BuildContext context) {
-    txtCEPTextControllerValidator = _txtCEPTextControllerValidator;
     txtLogradouroTextControllerValidator =
         _txtLogradouroTextControllerValidator;
     txtBairroTextControllerValidator = _txtBairroTextControllerValidator;

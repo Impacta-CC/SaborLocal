@@ -1,9 +1,9 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
-import '/auth/xano_auth_manager.dart';
-import '/backend/api_requests/api_calls.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,6 +47,8 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -472,83 +474,121 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
                     ),
                   ),
                   FFButtonWidget(
-                    onPressed: _model.isLoading
-                        ? null
-                        : () async {
-                            if (_model.formKey.currentState == null ||
-                                !_model.formKey.currentState!.validate()) {
-                              return;
-                            }
-
-                            safeSetState(() => _model.isLoading = true);
-
-                            final email =
-                                _model.eMailTextController.text.trim();
-                            final password = _model.senhaTextController.text;
-
-                            final response = await XanoAuthManager.instance
-                                .login(email, password);
-                            _model.apiResultLogin = response;
-
-                            safeSetState(() => _model.isLoading = false);
-
-                            if (response.succeeded) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Login realizado com sucesso! Bem-vindo(a), ${XanoAuthManager.instance.userName ?? ""}',
-                                    style: TextStyle(color: Colors.white),
+                    onPressed: () async {
+                      var _shouldSetState = false;
+                      if (_model.formKey.currentState == null ||
+                          !_model.formKey.currentState!.validate()) {
+                        return;
+                      }
+                      if (FFAppState().bloqueadoLogin == true) {
+                        if (functions.bloqueioExpirado(
+                                FFAppState().bloqueioTimestamp) ==
+                            true) {
+                          FFAppState().bloqueadoLogin = false;
+                          FFAppState().tentativasLogin = 0;
+                          FFAppState().bloqueioTimestamp = null;
+                          safeSetState(() {});
+                        } else {
+                          await showDialog(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
+                                title: Text('App Sabor Local'),
+                                content: Text(
+                                    'Email ou Senha inválido! Celular bloqueado para login. Tente novamente mais tarde.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(alertDialogContext),
+                                    child: Text('Ok'),
                                   ),
-                                  backgroundColor: Color(0xFFE9572F),
-                                  duration: Duration(seconds: 2),
-                                ),
+                                ],
                               );
+                            },
+                          );
+                          if (_shouldSetState) safeSetState(() {});
+                          return;
+                        }
+                      }
+                      _model.loginResult = await LoginCall.call(
+                        email: _model.eMailTextController.text,
+                        password: _model.senhaTextController.text,
+                      );
 
-                              context.goNamed(
-                                TelaPrincipalWidget.routeName,
-                                queryParameters: {
-                                  'nomeUsuario': serializeParam(
-                                    XanoAuthManager.instance.userName,
-                                    ParamType.String,
-                                  ),
-                                  'enderecoFormatado': serializeParam(
-                                    XanoAuthManager.instance.currentAddress,
-                                    ParamType.String,
-                                  ),
-                                }.withoutNulls,
-                              );
-                            } else {
-                              String errorMsg = 'E-mail ou senha incorretos.';
-                              final xanoMsg =
-                                  XanoLoginCall.errorMessage(response);
-                              if (xanoMsg != null && xanoMsg.isNotEmpty) {
-                                if (xanoMsg
-                                    .toLowerCase()
-                                    .contains('invalid')) {
-                                  errorMsg =
-                                      'E-mail ou senha inválidos. Verifique suas credenciais.';
-                                } else {
-                                  errorMsg = xanoMsg;
-                                }
-                              }
+                      _shouldSetState = true;
+                      if ((_model.loginResult?.succeeded ?? true)) {
+                        FFAppState().tentativasLogin = 0;
+                        FFAppState().authToken = getJsonField(
+                          (_model.loginResult?.jsonBody ?? ''),
+                          r'''$.authToken''',
+                        ).toString();
+                        safeSetState(() {});
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    errorMsg,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).error,
-                                  duration: Duration(seconds: 4),
-                                ),
-                              );
-                            }
+                        context.pushNamed(
+                          TelaPrincipalWidget.routeName,
+                          extra: <String, dynamic>{
+                            '__transition_info__': TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.rightToLeft,
+                            ),
                           },
-                    text: _model.isLoading ? 'Entrando...' : 'Entrar',
+                        );
+
+                        if (_shouldSetState) safeSetState(() {});
+                        return;
+                      } else {
+                        FFAppState().tentativasLogin =
+                            FFAppState().tentativasLogin + 1;
+                        safeSetState(() {});
+                        if (FFAppState().tentativasLogin >= 3) {
+                          FFAppState().bloqueadoLogin = true;
+                          FFAppState().bloqueioTimestamp = getCurrentTimestamp;
+                          safeSetState(() {});
+                          await showDialog(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
+                                title: Text('App Sabor Local'),
+                                content: Text(
+                                    'Email ou Senha inválido! Celular bloqueado para login. Tente novamente mais tarde.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(alertDialogContext),
+                                    child: Text('Ok'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          if (_shouldSetState) safeSetState(() {});
+                          return;
+                        } else {
+                          await showDialog(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
+                                title: Text('App Sabor Local'),
+                                content: Text(
+                                    'Email ou Senha inválido! Tente novamente.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(alertDialogContext),
+                                    child: Text('Ok'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          if (_shouldSetState) safeSetState(() {});
+                          return;
+                        }
+                      }
+
+                      if (_shouldSetState) safeSetState(() {});
+                    },
+                    text: 'Entrar',
                     options: FFButtonOptions(
                       width: 120.0,
                       height: 52.0,
