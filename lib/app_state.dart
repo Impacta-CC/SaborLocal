@@ -1,7 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show ChangeNotifier, Color, Colors, VoidCallback;
+import '/backend/schema/structs/index.dart';
 import '/backend/api_requests/api_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
+import 'dart:convert';
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -41,6 +44,16 @@ class FFAppState extends ChangeNotifier {
           ? DateTime.fromMillisecondsSinceEpoch(
               prefs.getInt('ff_bloqueioTimestamp')!)
           : _bloqueioTimestamp;
+    });
+    _safeInit(() {
+      if (prefs.containsKey('ff_enderecoSelecionado')) {
+        try {
+          _enderecoSelecionado =
+              jsonDecode(prefs.getString('ff_enderecoSelecionado') ?? '');
+        } catch (e) {
+          print("Can't decode persisted json. Error: $e.");
+        }
+      }
     });
   }
 
@@ -112,6 +125,42 @@ class FFAppState extends ChangeNotifier {
     value != null
         ? prefs.setInt('ff_bloqueioTimestamp', value.millisecondsSinceEpoch)
         : prefs.remove('ff_bloqueioTimestamp');
+  }
+
+  dynamic _enderecoSelecionado;
+  dynamic get enderecoSelecionado => _enderecoSelecionado;
+  set enderecoSelecionado(dynamic value) {
+    _enderecoSelecionado = value;
+    prefs.setString('ff_enderecoSelecionado', jsonEncode(value));
+  }
+
+  List<ItemCarrinhoStruct> _carrinho = [];
+  List<ItemCarrinhoStruct> get carrinho => _carrinho;
+  set carrinho(List<ItemCarrinhoStruct> value) {
+    _carrinho = value;
+  }
+
+  void addToCarrinho(ItemCarrinhoStruct value) {
+    carrinho.add(value);
+  }
+
+  void removeFromCarrinho(ItemCarrinhoStruct value) {
+    carrinho.remove(value);
+  }
+
+  void removeAtIndexFromCarrinho(int index) {
+    carrinho.removeAt(index);
+  }
+
+  void updateCarrinhoAtIndex(
+    int index,
+    ItemCarrinhoStruct Function(ItemCarrinhoStruct) updateFn,
+  ) {
+    carrinho[index] = updateFn(_carrinho[index]);
+  }
+
+  void insertAtIndexInCarrinho(int index, ItemCarrinhoStruct value) {
+    carrinho.insert(index, value);
   }
 }
 

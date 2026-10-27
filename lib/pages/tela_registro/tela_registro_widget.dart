@@ -834,8 +834,9 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                               _model.txtSenhaVisibility =
                                                   !_model.txtSenhaVisibility);
                                         },
-                                        focusNode:
-                                            FocusNode(skipTraversal: true),
+                                        focusNode: _model
+                                            .txtSenhaPasswordVisibilityFocusNode
+                                          ..skipTraversal = !(false),
                                         child: Icon(
                                           _model.txtSenhaVisibility
                                               ? Icons.visibility_outlined
@@ -1055,22 +1056,23 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                             );
 
                                             _shouldSetState = true;
-                                            FFAppState().userId =
-                                                CadastrarClienteCall.userId(
-                                              (_model.respostaCadastro
-                                                      ?.jsonBody ??
-                                                  ''),
-                                            );
-                                            FFAppState().authToken =
-                                                CadastrarClienteCall.authToken(
-                                              (_model.respostaCadastro
-                                                      ?.jsonBody ??
-                                                  ''),
-                                            )!;
-                                            safeSetState(() {});
                                             if ((_model.respostaCadastro
                                                     ?.succeeded ??
                                                 true)) {
+                                              FFAppState().userId =
+                                                  CadastrarClienteCall.userId(
+                                                (_model.respostaCadastro
+                                                        ?.jsonBody ??
+                                                    ''),
+                                              );
+                                              FFAppState().authToken =
+                                                  CadastrarClienteCall
+                                                      .authToken(
+                                                (_model.respostaCadastro
+                                                        ?.jsonBody ??
+                                                    ''),
+                                              )!;
+                                              safeSetState(() {});
                                               _model.apiCodigoEnviado =
                                                   await EnviarCodigoVerificacaoCall
                                                       .call(
@@ -1149,7 +1151,7 @@ class _TelaRegistroWidgetState extends State<TelaRegistroWidget> {
                                                   .showSnackBar(
                                                 SnackBar(
                                                   content: Text(
-                                                    'Ocorreu um erro ao registar o utilizador. Verifique os dados e tente novamente',
+                                                    'Já existe uma conta cadastrada com este e-mail ou CPF.',
                                                     style: TextStyle(
                                                       color: FlutterFlowTheme
                                                               .of(context)

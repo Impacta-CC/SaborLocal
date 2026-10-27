@@ -297,7 +297,9 @@ class _TelaLoginWidgetState extends State<TelaLoginWidget> {
                                     safeSetState(() => _model.senhaVisibility =
                                         !_model.senhaVisibility);
                                   },
-                                  focusNode: FocusNode(skipTraversal: true),
+                                  focusNode:
+                                      _model.senhaPasswordVisibilityFocusNode
+                                        ..skipTraversal = !(false),
                                   child: Icon(
                                     _model.senhaVisibility
                                         ? Icons.visibility_outlined

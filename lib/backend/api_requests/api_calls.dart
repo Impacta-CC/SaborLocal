@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import '../schema/structs/index.dart';
+
 import 'package:flutter/foundation.dart';
 
 import '/flutter_flow/flutter_flow_util.dart';
@@ -261,6 +263,119 @@ class CadastraEnderecoCall {
   }
 }
 
+class ListarEnderecosCall {
+  static Future<ApiCallResponse> call({
+    String? token = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'ListarEnderecos',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:jfZ30hOo/listar_enderecos',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static int? id(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$[:].id''',
+      ));
+  static String? logradouro(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$[:].logradouro''',
+      ));
+  static String? numero(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$[:].numero''',
+      ));
+  static String? bairro(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$[:].bairro''',
+      ));
+  static bool? padrao(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$[:].padrao''',
+      ));
+  static int? tipoenderecoID(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$[:].tipoendereco_id''',
+      ));
+}
+
+class DefinirEnderecoPadraoCall {
+  static Future<ApiCallResponse> call({
+    String? token = '',
+    int? enderecoId,
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "endereco_id": ${enderecoId}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'DefinirEnderecoPadrao',
+      apiUrl:
+          'https://x8ki-letl-twmt.n7.xano.io/api:jfZ30hOo/definir_endereco_padrao',
+      callType: ApiCallType.PATCH,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static int? id(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.id''',
+      ));
+  static bool? padrao(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.padrao''',
+      ));
+  static int? tipoenderecoID(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.tipoendereco_id''',
+      ));
+}
+
+class ListarProdutosCall {
+  static Future<ApiCallResponse> call({
+    String? categoria = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'ListarProdutos',
+      apiUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:jfZ30hOo/listar_produtos',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'categoria': categoria,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;
@@ -309,9 +424,6 @@ String? escapeStringForJson(String? input) {
   if (input == null) {
     return null;
   }
-  return input
-      .replaceAll('\\', '\\\\')
-      .replaceAll('"', '\\"')
-      .replaceAll('\n', '\\n')
-      .replaceAll('\t', '\\t');
+  final encoded = jsonEncode(input);
+  return encoded.substring(1, encoded.length - 1);
 }

@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
+import '/backend/schema/structs/index.dart';
+
 import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/lat_lng.dart';
@@ -88,20 +90,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: TelaPrincipalWidget.routeName,
-          path: TelaPrincipalWidget.routePath,
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'TelaPrincipal')
-              : TelaPrincipalWidget(
-                  enderecoFormatado: params.getParam(
-                    'enderecoFormatado',
-                    ParamType.String,
-                  ),
-                  nomeUsuario: params.getParam(
-                    'nomeUsuario',
-                    ParamType.String,
-                  ),
-                ),
+          name: TelaPrincipal2Widget.routeName,
+          path: TelaPrincipal2Widget.routePath,
+          builder: (context, params) => TelaPrincipal2Widget(
+            enderecoFormatado: params.getParam(
+              'enderecoFormatado',
+              ParamType.String,
+            ),
+            nomeUsuario: params.getParam(
+              'nomeUsuario',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: TelaBuscaWidget.routeName,
@@ -123,6 +123,32 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'TelaPedidos')
               : TelaPedidosWidget(),
+        ),
+        FFRoute(
+          name: TelaGerenciarEndWidget.routeName,
+          path: TelaGerenciarEndWidget.routePath,
+          builder: (context, params) => TelaGerenciarEndWidget(
+            nomeUsuario: params.getParam(
+              'nomeUsuario',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: TelaPrincipalWidget.routeName,
+          path: TelaPrincipalWidget.routePath,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'TelaPrincipal')
+              : TelaPrincipalWidget(
+                  enderecoFormatado: params.getParam(
+                    'enderecoFormatado',
+                    ParamType.String,
+                  ),
+                  nomeUsuario: params.getParam(
+                    'nomeUsuario',
+                    ParamType.String,
+                  ),
+                ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -194,6 +220,7 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
+    StructBuilder<T>? structBuilder,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -211,6 +238,7 @@ class FFParameters {
       param,
       type,
       isList,
+      structBuilder: structBuilder,
     );
   }
 }
@@ -260,6 +288,10 @@ class FFRoute {
                     duration: transitionInfo.duration,
                     reverseDuration: transitionInfo.duration,
                     alignment: transitionInfo.alignment,
+                    curve: transitionInfo.transitionType ==
+                            PageTransitionType.scale
+                        ? const Interval(0.0, 0.5)
+                        : Curves.linear,
                     child: child,
                   ).buildTransitions(
                     context,

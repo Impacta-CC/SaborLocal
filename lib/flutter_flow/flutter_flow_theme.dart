@@ -32,6 +32,14 @@ abstract class FlutterFlowTheme {
   late Color error;
   late Color info;
 
+  late Color principal;
+  late Color login;
+  late Color customColor1;
+  late Color customColor2;
+  late Color customColor3;
+  late Color customColor4;
+  late Color customColor5;
+
   FFDesignTokens get designToken => FFDesignTokens(this);
 
   @Deprecated('Use displaySmallFamily instead')
@@ -136,6 +144,14 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color warning = const Color(0xFFF9CF58);
   late Color error = const Color(0xFFFF5963);
   late Color info = const Color(0xFFFFFFFF);
+
+  late Color principal = const Color(0xFFE9572F);
+  late Color login = const Color(0xFF2B1E17);
+  late Color customColor1 = const Color(0xFFC9B3A3);
+  late Color customColor2 = const Color(0xFF21140E);
+  late Color customColor3 = const Color(0xFFF5E9DC);
+  late Color customColor4 = const Color(0xFFF8F9FA);
+  late Color customColor5 = const Color(0xFFF5E9DC);
 }
 
 abstract class Typography {

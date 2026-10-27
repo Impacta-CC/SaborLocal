@@ -31,6 +31,10 @@ class TelaRegistroModel extends FlutterFlowModel<TelaRegistroWidget> {
       return 'Preencha com seu nome';
     }
 
+    if (!RegExp('^\\s*([A-Za-zÀ-ÖØ-öø-ÿ]+)\\s+([A-Za-zÀ-ÖØ-öø-ÿ]+.*)\$')
+        .hasMatch(val)) {
+      return 'Por favor, digite seu nome e pelo menos um sobrenome.';
+    }
     return null;
   }
 
@@ -73,6 +77,7 @@ class TelaRegistroModel extends FlutterFlowModel<TelaRegistroWidget> {
   late MaskTextInputFormatter txtCPFMask;
   String? Function(BuildContext, String?)? txtCPFTextControllerValidator;
   // State field(s) for txt_senha widget.
+  late FocusNode txtSenhaPasswordVisibilityFocusNode;
   FocusNode? txtSenhaFocusNode;
   TextEditingController? txtSenhaTextController;
   late bool txtSenhaVisibility;
@@ -118,6 +123,7 @@ class TelaRegistroModel extends FlutterFlowModel<TelaRegistroWidget> {
     txtNomeTextControllerValidator = _txtNomeTextControllerValidator;
     txtEmailTextControllerValidator = _txtEmailTextControllerValidator;
     txtTelefoneTextControllerValidator = _txtTelefoneTextControllerValidator;
+    txtSenhaPasswordVisibilityFocusNode = FocusNode();
     txtSenhaVisibility = false;
     txtSenhaTextControllerValidator = _txtSenhaTextControllerValidator;
     txtConfirmeTextControllerValidator = _txtConfirmeTextControllerValidator;
@@ -140,7 +146,7 @@ class TelaRegistroModel extends FlutterFlowModel<TelaRegistroWidget> {
 
     txtSenhaFocusNode?.dispose();
     txtSenhaTextController?.dispose();
-
+    txtSenhaPasswordVisibilityFocusNode.dispose();
     txtConfirmeFocusNode?.dispose();
     txtConfirmeTextController?.dispose();
 
