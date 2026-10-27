@@ -30,6 +30,7 @@ class TelaLoginModel extends FlutterFlowModel<TelaLoginWidget> {
   }
 
   // State field(s) for Senha widget.
+  late FocusNode senhaPasswordVisibilityFocusNode;
   FocusNode? senhaFocusNode;
   TextEditingController? senhaTextController;
   late bool senhaVisibility;
@@ -48,6 +49,7 @@ class TelaLoginModel extends FlutterFlowModel<TelaLoginWidget> {
   @override
   void initState(BuildContext context) {
     eMailTextControllerValidator = _eMailTextControllerValidator;
+    senhaPasswordVisibilityFocusNode = FocusNode();
     senhaVisibility = false;
     senhaTextControllerValidator = _senhaTextControllerValidator;
   }
@@ -59,5 +61,6 @@ class TelaLoginModel extends FlutterFlowModel<TelaLoginWidget> {
 
     senhaFocusNode?.dispose();
     senhaTextController?.dispose();
+    senhaPasswordVisibilityFocusNode.dispose();
   }
 }

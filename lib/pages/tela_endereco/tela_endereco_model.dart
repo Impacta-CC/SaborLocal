@@ -36,23 +36,15 @@ class TelaEnderecoModel extends FlutterFlowModel<TelaEnderecoWidget> {
     return null;
   }
 
+  // State field(s) for txt_numero widget.
+  FocusNode? txtNumeroFocusNode;
+  TextEditingController? txtNumeroTextController;
+  String? Function(BuildContext, String?)? txtNumeroTextControllerValidator;
   // State field(s) for txt_bairro widget.
   FocusNode? txtBairroFocusNode;
   TextEditingController? txtBairroTextController;
   String? Function(BuildContext, String?)? txtBairroTextControllerValidator;
   String? _txtBairroTextControllerValidator(BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Campo obrigatório';
-    }
-
-    return null;
-  }
-
-  // State field(s) for tx_nmr widget.
-  FocusNode? txNmrFocusNode;
-  TextEditingController? txNmrTextController;
-  String? Function(BuildContext, String?)? txNmrTextControllerValidator;
-  String? _txNmrTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Campo obrigatório';
     }
@@ -77,7 +69,6 @@ class TelaEnderecoModel extends FlutterFlowModel<TelaEnderecoWidget> {
     txtLogradouroTextControllerValidator =
         _txtLogradouroTextControllerValidator;
     txtBairroTextControllerValidator = _txtBairroTextControllerValidator;
-    txNmrTextControllerValidator = _txNmrTextControllerValidator;
   }
 
   @override
@@ -88,11 +79,11 @@ class TelaEnderecoModel extends FlutterFlowModel<TelaEnderecoWidget> {
     txtLogradouroFocusNode?.dispose();
     txtLogradouroTextController?.dispose();
 
+    txtNumeroFocusNode?.dispose();
+    txtNumeroTextController?.dispose();
+
     txtBairroFocusNode?.dispose();
     txtBairroTextController?.dispose();
-
-    txNmrFocusNode?.dispose();
-    txNmrTextController?.dispose();
 
     txtComplementoFocusNode?.dispose();
     txtComplementoTextController?.dispose();
