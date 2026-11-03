@@ -11,3 +11,4 @@ export '/pages/tela_gerenciar_end/tela_gerenciar_end_widget.dart'
     show TelaGerenciarEndWidget;
 export '/pages/tela_principal/tela_principal_widget.dart'
     show TelaPrincipalWidget;
+export '/pages/tela_carrinho/tela_carrinho_widget.dart' show TelaCarrinhoWidget;

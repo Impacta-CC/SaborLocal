@@ -14,13 +14,15 @@ class ItemCarrinhoStruct extends BaseStruct {
     int? quantidade,
     String? observacao,
     double? subtotal,
+    int? qtdDisp,
   })  : _produtoId = produtoId,
         _nome = nome,
         _preco = preco,
         _imagemUrl = imagemUrl,
         _quantidade = quantidade,
         _observacao = observacao,
-        _subtotal = subtotal;
+        _subtotal = subtotal,
+        _qtdDisp = qtdDisp;
 
   // "produto_id" field.
   int? _produtoId;
@@ -79,6 +81,15 @@ class ItemCarrinhoStruct extends BaseStruct {
 
   bool hasSubtotal() => _subtotal != null;
 
+  // "qtd_disp" field.
+  int? _qtdDisp;
+  int get qtdDisp => _qtdDisp ?? 0;
+  set qtdDisp(int? val) => _qtdDisp = val;
+
+  void incrementQtdDisp(int amount) => qtdDisp = qtdDisp + amount;
+
+  bool hasQtdDisp() => _qtdDisp != null;
+
   static ItemCarrinhoStruct fromMap(Map<String, dynamic> data) =>
       ItemCarrinhoStruct(
         produtoId: castToType<int>(data['produto_id']),
@@ -88,6 +99,7 @@ class ItemCarrinhoStruct extends BaseStruct {
         quantidade: castToType<int>(data['quantidade']),
         observacao: data['observacao'] as String?,
         subtotal: castToType<double>(data['subtotal']),
+        qtdDisp: castToType<int>(data['qtd_disp']),
       );
 
   static ItemCarrinhoStruct? maybeFromMap(dynamic data) => data is Map
@@ -102,6 +114,7 @@ class ItemCarrinhoStruct extends BaseStruct {
         'quantidade': _quantidade,
         'observacao': _observacao,
         'subtotal': _subtotal,
+        'qtd_disp': _qtdDisp,
       }.withoutNulls;
 
   @override
@@ -133,6 +146,10 @@ class ItemCarrinhoStruct extends BaseStruct {
         'subtotal': serializeParam(
           _subtotal,
           ParamType.double,
+        ),
+        'qtd_disp': serializeParam(
+          _qtdDisp,
+          ParamType.int,
         ),
       }.withoutNulls;
 
@@ -173,6 +190,11 @@ class ItemCarrinhoStruct extends BaseStruct {
           ParamType.double,
           false,
         ),
+        qtdDisp: deserializeParam(
+          data['qtd_disp'],
+          ParamType.int,
+          false,
+        ),
       );
 
   @override
@@ -187,12 +209,21 @@ class ItemCarrinhoStruct extends BaseStruct {
         imagemUrl == other.imagemUrl &&
         quantidade == other.quantidade &&
         observacao == other.observacao &&
-        subtotal == other.subtotal;
+        subtotal == other.subtotal &&
+        qtdDisp == other.qtdDisp;
   }
 
   @override
-  int get hashCode => const ListEquality().hash(
-      [produtoId, nome, preco, imagemUrl, quantidade, observacao, subtotal]);
+  int get hashCode => const ListEquality().hash([
+        produtoId,
+        nome,
+        preco,
+        imagemUrl,
+        quantidade,
+        observacao,
+        subtotal,
+        qtdDisp
+      ]);
 }
 
 ItemCarrinhoStruct createItemCarrinhoStruct({
@@ -203,6 +234,7 @@ ItemCarrinhoStruct createItemCarrinhoStruct({
   int? quantidade,
   String? observacao,
   double? subtotal,
+  int? qtdDisp,
 }) =>
     ItemCarrinhoStruct(
       produtoId: produtoId,
@@ -212,4 +244,5 @@ ItemCarrinhoStruct createItemCarrinhoStruct({
       quantidade: quantidade,
       observacao: observacao,
       subtotal: subtotal,
+      qtdDisp: qtdDisp,
     );

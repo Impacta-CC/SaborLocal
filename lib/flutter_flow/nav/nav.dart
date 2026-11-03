@@ -139,16 +139,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: TelaPrincipalWidget.routePath,
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'TelaPrincipal')
-              : TelaPrincipalWidget(
-                  enderecoFormatado: params.getParam(
-                    'enderecoFormatado',
-                    ParamType.String,
-                  ),
-                  nomeUsuario: params.getParam(
-                    'nomeUsuario',
-                    ParamType.String,
-                  ),
-                ),
+              : TelaPrincipalWidget(),
+        ),
+        FFRoute(
+          name: TelaCarrinhoWidget.routeName,
+          path: TelaCarrinhoWidget.routePath,
+          builder: (context, params) => TelaCarrinhoWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
